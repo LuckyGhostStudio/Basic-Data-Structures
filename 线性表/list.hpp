@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+#include<string>
 using namespace std;
 
 #define InitSize 10
@@ -36,6 +37,8 @@ public:
 	/// <param name="size">列表容量</param>
 	List(int size);
 
+	~List();
+
 	/// <summary>
 	/// 添加元素
 	/// </summary>
@@ -58,7 +61,7 @@ public:
 	bool removeAt(int i);		//时间复杂度：最好O(1)，最坏O(n)，平均O(n)
 
 	/// <summary>
-	/// 移除列表元素
+	/// 移除列表第一个等值元素
 	/// </summary>
 	/// <param name="value">元素值</param>
 	/// <returns>移除操作的结果</returns>
@@ -79,10 +82,22 @@ public:
 	int getIndexOfValue(T value);		//时间复杂度：最好O(1)，最坏O(n)，平均O(n)
 
 	/// <summary>
+	/// 列表逆序
+	/// </summary>
+	void reverse();
+
+	/// <summary>
 	/// 列表元素升序排序
 	/// </summary>
 	/// <param name="desc">是否降序</param>
 	void sort(bool desc);
+
+	/// <summary>
+	/// 清空列表
+	/// </summary>
+	void clear();
+
+	string toString();
 };
 
 template<class T>
@@ -100,6 +115,12 @@ List<T>::List(int size)
 	this->data = (T*)operator new(size * sizeof(T));	//申请内存空间：int类型，大小=初始容量*int大小
 	this->length = 0;
 	this->maxSize = size;	//最大容量为size
+}
+
+template<class T>
+List<T>::~List()
+{
+	
 }
 
 template<class T>
@@ -132,7 +153,7 @@ void List<T>::add(T value)
 template<class T>
 bool List<T>::insert(int i, T value)		//时间复杂度：最好O(1)，最坏O(n)，平均O(n)
 {
-	if (i<0 || i>this->length + 1) {
+	if (i<0 || i>this->length) {
 		return false;
 	}
 
@@ -155,7 +176,7 @@ bool List<T>::insert(int i, T value)		//时间复杂度：最好O(1)，最坏O(n)，平均O(n)
 template<class T>
 bool List<T>::removeAt(int i)		//时间复杂度：最好O(1)，最坏O(n)，平均O(n)
 {
-	if (i<0 || i>this->length) {
+	if (i<0 || i>this->length - 1) {
 		return false;
 	}
 
@@ -209,7 +230,41 @@ int List<T>::getIndexOfValue(T value)		//时间复杂度：最好O(1)，最坏O(n)，平均O(n
 }
 
 template<class T>
+void List<T>::reverse()
+{
+	for (int i = 0; i < this->length / 2; i++)
+	{
+		T temp = this->data[i];
+		this->data[i] = this->data[length - i - 1];
+		this->data[length - i - 1] = temp;
+	}
+}
+
+template<class T>
 void List<T>::sort(bool desc)
 {
 
+}
+
+template<class T>
+void List<T>::clear()
+{
+	this->maxSize = this->initSize;
+	this->length = 0;
+	delete[] this->data;
+}
+
+template<class T>
+string List<T>::toString()
+{
+	string list = "[";
+
+	for (int i = 0; i < this->length; i++)
+	{
+		list += to_string(this->data[i]);
+		if (i != this->length - 1)
+			list += ",";
+	}
+
+	return list + "]";
 }

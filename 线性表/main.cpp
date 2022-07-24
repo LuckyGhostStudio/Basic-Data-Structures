@@ -1,6 +1,10 @@
 #include<iostream>
+#include<string>
 #include"list.hpp"
+#include"linkedList.hpp"
 using namespace std;
+
+
 
 int main()
 {
@@ -11,19 +15,29 @@ int main()
 		list.add(i);
 	}
 
-	list.insert(2, 100);
-	list.removeAt(5);
+	list.reverse();
+	//list.clear();
 
-	cout << "指定索引的值：" << list.getValueOfIndex(2) << endl;
-	cout << "指定值的索引：" << list.getIndexOfValue(100) << endl;
+	cout << list.toString() << endl;
 
-	list.remove(100);
+	cout << "---------" << endl;
 
+	LinkedList<int> linkedList = LinkedList<int>();
 
-	cout << "长度" << list.length << endl;
-
-	for (int i = 0; i < list.length; i++)
+	for (int i = 0; i < 10; i++)
 	{
-		cout << list.getValueOfIndex(i) << endl;
+		linkedList.add(i);
 	}
+
+	linkedList.insert(10, 10);
+	linkedList.insert(3, 30);
+
+	linkedList.removeAt(11);
+	linkedList.remove(30);
+	
+	cout << linkedList.toString() << endl;
+	cout << linkedList.getIndexOfValue(5) << endl;
+	cout << linkedList.getValueOfIndex(6) << endl;
+	cout << "长度" << linkedList.length << endl;
+	cout << linkedList.empty();
 }
