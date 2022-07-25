@@ -176,7 +176,7 @@ void LinkedList<T>::add(T value)
 		p = p->next;
 	}
 
-	insertNextNode(p, value);	//在p后插入元素值为value的节点
+	insertNextNode(p, value);	//在尾结点tail后插入元素值为value的节点
 
 	length++;
 }

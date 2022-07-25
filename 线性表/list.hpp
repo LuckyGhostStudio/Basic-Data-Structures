@@ -13,8 +13,7 @@ class List
 {
 private:
 	T* data;		//动态分配数组的指针
-	int initSize;	//初始容量
-	int maxSize;	//最大容量
+	int capacity;	//最大容量
 
 public:
 	int length;		//列表当前长度
@@ -38,6 +37,19 @@ public:
 	List(int size);
 
 	~List();
+
+	/// <summary>
+	/// 拷贝构造函数：深拷贝
+	/// </summary>
+	/// <param name="list">被拷贝的列表</param>
+	List(const List& list);
+
+	/// <summary>
+	/// 重载=运算符
+	/// </summary>
+	/// <param name="list"></param>
+	/// <returns></returns>
+	List& operator=(const List& list);
 
 	/// <summary>
 	/// 添加元素
@@ -103,38 +115,78 @@ public:
 template<class T>
 List<T>::List()
 {
-	this->initSize = InitSize;
-	this->data = (T*)operator new(this->initSize * sizeof(T));	//申请内存空间：int类型，大小=初始容量*int大小
+	this->data = new T[InitSize];	//申请内存空间
 	this->length = 0;
-	this->maxSize = this->initSize;	//最大容量为初始容量
+	this->capacity = InitSize;	//最大容量为初始容量
 }
 
 template<class T>
-List<T>::List(int size)
+List<T>::List(int capacity)
 {
-	this->data = (T*)operator new(size * sizeof(T));	//申请内存空间：int类型，大小=初始容量*int大小
+	this->data = new T[InitSize];	//申请内存空间：int类型，大小=初始容量*int大小
 	this->length = 0;
-	this->maxSize = size;	//最大容量为size
+	this->capacity = capacity;	//最大容量为size
 }
 
 template<class T>
 List<T>::~List()
 {
-	
+	if (this->data != nullptr) {
+		delete[] this->data;
+		this->data = nullptr;
+	}
+}
+
+template<class T>
+List<T>::List(const List& list)
+{
+	this->capacity = list.capacity;
+	this->length = list.length;
+
+	this->data = new T[list.capacity];	//申请空间
+
+	for (int i = 0; i < this->length; i++)
+	{
+		this->data[i] = list.data[i];
+	}
+}
+
+template<class T>
+List<T>& List<T>::operator=(const List& list)
+{
+	//释放原来的数据
+	if (this->data != nullptr) {
+		delete[] this->data;
+		this->data = nullptr;
+		this->capacity = 0;
+		this->length = 0;
+	}
+
+	this->capacity = list.capacity;
+	this->length = list.length;
+
+	this->data = new T[list.capacity];	//申请空间
+
+	for (int i = 0; i < this->length; i++)
+	{
+		this->data[i] = list.data[i];
+	}
+
+	return *this;
 }
 
 template<class T>
 void List<T>::increaseSize()
 {
 	T* p = this->data;	//记录data的初始位置
-	this->data = (T*)operator new(this->maxSize * 2 * sizeof(T));	//申请内存空间：容量翻倍
+	this->data = new T[this->capacity * 2];	//申请内存空间：容量翻倍
 
 	//将原来的内存数据复制到新申请的空间
 	for (int i = 0; i < this->length; i++) {
 		this->data[i] = p[i];
 	}
 
-	this->maxSize *= 2;		//最大容量+额外申请的长度
+	this->capacity *= 2;		//最大容量+额外申请的长度
 
 	delete(p);	//释放原来的内存空间
 }
@@ -142,7 +194,7 @@ void List<T>::increaseSize()
 template<class T>
 void List<T>::add(T value)
 {
-	if (this->length == this->maxSize) {	//列表已满
+	if (this->length == this->capacity) {	//列表已满
 		increaseSize();		//增加容量
 	}
 
@@ -157,7 +209,7 @@ bool List<T>::insert(int i, T value)		//时间复杂度：最好O(1)，最坏O(n)，平均O(n)
 		return false;
 	}
 
-	if (this->length == this->maxSize) {
+	if (this->length == this->capacity) {
 		increaseSize();
 	}
 
@@ -249,7 +301,7 @@ void List<T>::sort(bool desc)
 template<class T>
 void List<T>::clear()
 {
-	this->maxSize = this->initSize;
+	this->capacity = this->initSize;
 	this->length = 0;
 	delete[] this->data;
 }

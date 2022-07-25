@@ -15,10 +15,15 @@ int main()
 		list.add(i);
 	}
 
+	List<int> list1 = List<int>(list);
+
 	list.reverse();
 	//list.clear();
 
+	list1 = list;
+
 	cout << list.toString() << endl;
+	cout << list1.toString() << endl;
 
 	cout << "---------" << endl;
 
