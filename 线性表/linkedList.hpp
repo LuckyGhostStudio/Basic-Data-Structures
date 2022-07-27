@@ -99,6 +99,8 @@ public:
 
 	bool empty();
 
+	void clear();
+
 	string toString();
 };
 
@@ -243,6 +245,18 @@ template<class T>
 bool LinkedList<T>::empty()
 {
 	return this->head->next == nullptr;		//头结点的下一个节点为空
+}
+
+template<class T>
+void LinkedList<T>::clear()
+{
+	while (this->head->next != nullptr) {
+		ListNode<T>* p = this->head->next;
+		delete p;
+		p = p->next;
+	}
+	delete this->head;
+	this->head = nullptr;
 }
 
 template<class T>
