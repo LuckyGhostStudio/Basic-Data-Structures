@@ -99,7 +99,7 @@ public:
 
 	bool empty();
 
-	void clear();
+	bool clear();
 
 	string toString();
 };
@@ -248,12 +248,13 @@ bool LinkedList<T>::empty()
 }
 
 template<class T>
-void LinkedList<T>::clear()
+bool LinkedList<T>::clear()
 {
 	while (this->head->next != nullptr) {
 		ListNode<T>* p = this->head->next;
+		if (p == nullptr) return false;
+		this->head->next = p->next;
 		delete p;
-		p = p->next;
 	}
 	delete this->head;
 	this->head = nullptr;

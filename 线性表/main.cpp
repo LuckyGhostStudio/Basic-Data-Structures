@@ -3,6 +3,7 @@
 #include"list.hpp"
 #include"linkedList.hpp"
 #include"stack.hpp"
+#include"queue.hpp"
 using namespace std;
 
 
@@ -45,22 +46,38 @@ int main()
 	//linkedList.clear();
 	
 	cout << linkedList.toString() << endl;
-	cout << linkedList.getIndexOfValue(5) << endl;
-	cout << linkedList.getValueOfIndex(6) << endl;
 	cout << "长度" << linkedList.length << endl;
-	cout << linkedList.empty();
+	cout << linkedList.empty() << endl;
 
-	cout << endl << "-----栈（静态）-----" << endl;
+	cout << endl << "-----栈-----" << endl;
 
 	Stack<int> stack = Stack<int>();
+
+	cout << stack.empty() << endl;
 
 	for (int i = 0; i < 10; i++)
 	{
 		stack.push(i);
 	}
 
+	//stack.clear();
+
+	cout << stack.toString() << endl;
+
+	cout << endl << "-----队列-----" << endl;
+
+	Queue<int> queue = Queue<int>();
+
 	for (int i = 0; i < 10; i++)
 	{
-		cout << stack.pop() << endl;
+		queue.push(i);
 	}
+
+	queue.push(queue.pop());
+	queue.push(queue.pop());
+	queue.push(queue.pop());
+	queue.push(20);
+
+	cout << queue.getCapacity() << endl;
+	cout << queue.toString() << endl;
 }

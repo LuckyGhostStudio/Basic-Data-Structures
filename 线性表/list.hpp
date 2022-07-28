@@ -22,7 +22,7 @@ private:
 	/// <summary>
 	/// 动态增加列表容量
 	/// </summary>
-	void increaseSize();
+	void increaseCapacity();
 
 public:
 	/// <summary>
@@ -33,8 +33,8 @@ public:
 	/// <summary>
 	/// 构造函数
 	/// </summary>
-	/// <param name="size">列表容量</param>
-	List(int size);
+	/// <param name="capacity">列表容量</param>
+	List(int capacity);
 
 	~List();
 
@@ -176,7 +176,7 @@ List<T>& List<T>::operator=(const List& list)
 }
 
 template<class T>
-void List<T>::increaseSize()
+void List<T>::increaseCapacity()
 {
 	T* p = this->data;	//记录data的初始位置
 	this->data = new T[this->capacity * 2];	//申请内存空间：容量翻倍
@@ -195,7 +195,7 @@ template<class T>
 void List<T>::add(T value)
 {
 	if (this->length == this->capacity) {	//列表已满
-		increaseSize();		//增加容量
+		this->increaseCapacity();		//增加容量
 	}
 
 	this->data[length] = value;
@@ -210,7 +210,7 @@ bool List<T>::insert(int i, T value)		//时间复杂度：最好O(1)，最坏O(n)，平均O(n)
 	}
 
 	if (this->length == this->capacity) {
-		increaseSize();
+		increaseCapacity();
 	}
 
 	//将i位置及以后的元素后移一位
@@ -301,9 +301,10 @@ void List<T>::sort(bool desc)
 template<class T>
 void List<T>::clear()
 {
-	this->capacity = this->initSize;
+	this->capacity = InitSize;
 	this->length = 0;
 	delete[] this->data;
+	this->data = nullptr;
 }
 
 template<class T>
