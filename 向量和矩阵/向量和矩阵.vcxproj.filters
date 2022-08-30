@@ -20,19 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="list.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="linkedList.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="stack.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="queue.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="string.hpp">
+    <ClInclude Include="matrix.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
