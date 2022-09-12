@@ -26,7 +26,10 @@
     <ClInclude Include="HuffmanTree.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Graph.h">
+    <ClInclude Include="GraphAdjacencyMatrix.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphAdjacencyTable.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

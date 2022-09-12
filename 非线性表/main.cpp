@@ -3,6 +3,7 @@
 #include<queue>
 #include"BinaryTree.hpp"
 #include"HuffmanTree.h"
+#include"GraphAdjacencyMatrix.h"
 using namespace std;
 
 void treeTest()
@@ -104,10 +105,34 @@ void BFSTest()
 	}
 }
 
-int main()
+void HuffmanTreeTest()
 {
 	int a[] = { 1,2,2,3,7 };
-	HuffmanTree<int> huffman = HuffmanTree<int>(a,5);
+	HuffmanTree<int> huffman = HuffmanTree<int>(a, 5);
 
 	huffman.print(3);
+}
+
+void GraphTest()
+{
+	//邻接矩阵
+	int edge[5][5] = {
+		{0, 1, 1, 0, 1},
+		{1, 0, 0, 1, 1},
+		{1, 0, 0, 1, 0},
+		{0, 1, 1, 0, 1},
+		{1, 1, 0, 1, 0}
+	};
+
+	int* edgePointer = &edge[0][0];
+
+	string infos[5] = { "A","B","C","D","E" };	//顶点信息
+
+	MGraph<string, int> graph = MGraph<string, int>(infos, edgePointer, 5);
+	graph.print("DFS");
+}
+
+int main()
+{
+	GraphTest();
 }
