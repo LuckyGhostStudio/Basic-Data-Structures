@@ -22,18 +22,23 @@ class Node
 {
 public:
 	int step;
-	int x, y;
+	int preX, preY;	//前驱坐标
+	int x, y;		//当前坐标
 
-	Node(int step, int x, int y)
+	Node(int step, int preX, int preY, int x, int y)
 	{
 		this->step = step;
+		this->preX = preX;
+		this->preY = preY;
 		this->x = x;
 		this->y = y;
 	}
 
-	void set(int step, int x, int y)
+	void set(int step, int preX, int preY, int x, int y)
 	{
 		this->step = step;
+		this->preX = preX;
+		this->preY = preY;
 		this->x = x;
 		this->y = y;
 	}
@@ -54,36 +59,57 @@ void BFSTest()
 	map[1][2] = "S";	//起点
 	map[4][7] = "E";	//终点
 
+	vector<Node> vertexes;
 	queue<Node> stepQueue = queue<Node>();	//存放当前访问节点的子节点（相邻节点）
-	Node node = Node(0, 1, 2);	//当前步数，坐标
-	stepQueue.push(node);
+	Node startNode = Node(0, -1, -1, 1, 2);	//起点：当前步数，前驱坐标，坐标
+	stepQueue.push(startNode);
 	//广度优先搜索
 	while (!stepQueue.empty()) {
 		Node current = stepQueue.front();
 		Node temp = current;
+		vertexes.push_back(current);
 		stepQueue.pop();
 
-		if (map[temp.x][temp.y] == "E") break;	//找到终点 结束遍历
+		if (map[temp.x][temp.y] == "E") {	//找到终点 回溯最短路 结束遍历
+			//找E的前驱，直到起点S
+			/*while (map[temp.x][temp.y] != "S") {
+				for (int i = 0; i < vertexes.size(); i++)
+				{
+					if (vertexes[i].x == temp.x && vertexes[i].y == temp.y) {
+						temp = vertexes[i];
+						break;
+					}
+				}
+				temp.x = temp.preX;
+				temp.y = temp.preY;
+				map[temp.x][temp.x] = "*";
+			}*/
+			break;
+		}
 		if (map[temp.x][temp.y] != "S") {
 			map[current.x][current.y] = "o";	//访问当前节点
 		}
 
 		//依次遍历当前节点的子节点，并入队：上右左下相邻的节点
 		if (current.y + 1 < 10 && map[current.x][current.y + 1] != "o") {
-			temp.set(current.step + 1, current.x, current.y + 1);
+			temp.set(current.step + 1, current.x, current.y, current.x, current.y + 1);
 			stepQueue.push(temp);
+			vertexes.push_back(temp);
 		}
 		if (current.x + 1 < 10 && map[current.x + 1][current.y] != "o") {
-			temp.set(current.step + 1, current.x + 1, current.y);
+			temp.set(current.step + 1, current.x, current.y, current.x + 1, current.y);
 			stepQueue.push(temp);
+			vertexes.push_back(temp);
 		}
 		if (current.y - 1 >= 0 && map[current.x][current.y - 1] != "o") {
-			temp.set(current.step + 1, current.x, current.y - 1);
+			temp.set(current.step + 1, current.x, current.y, current.x, current.y - 1);
 			stepQueue.push(temp);
+			vertexes.push_back(temp);
 		}
 		if (current.x - 1 >= 0 && map[current.x - 1][current.y] != "o") {
-			temp.set(current.step + 1, current.x - 1, current.y);
+			temp.set(current.step + 1, current.x, current.y, current.x - 1, current.y);
 			stepQueue.push(temp);
+			vertexes.push_back(temp);
 		}
 	}
 
@@ -134,5 +160,6 @@ void GraphTest()
 
 int main()
 {
-	GraphTest();
+	//GraphTest();
+	BFSTest();
 }
